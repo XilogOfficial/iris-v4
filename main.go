@@ -69,6 +69,11 @@ func main() {
 	s := disgord.New(disgord.Config{
 		BotToken: viper.GetString("bot.token"),
 		Logger:   logrus.New(),
+		ShardConfig: disgord.ShardConfig{
+			// this is a copy so u can't manipulate the config later on
+			ShardIDs:   []uint{0},                        // this number must change for each instance. Try to automate this.
+			ShardCount: uint(viper.GetInt("bot.shards")), // total of 5 shards, but this disgord instance only has one. AutoScaling is disabled - use OnScalingRequired.
+		},
 	})
 
 	router.Hook(s)

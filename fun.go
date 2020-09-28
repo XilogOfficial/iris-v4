@@ -2,6 +2,7 @@ package main
 
 import (
 	"fmt"
+	"math/rand"
 	"runtime"
 
 	"github.com/andersfylling/disgord"
@@ -11,46 +12,42 @@ import (
 
 func init() {
 	var coreCategory = &gommand.Category{
-		Name:        "Core",
-		Description: "Base Iris commands",
+		Name:        "Fun",
+		Description: "Fun commands! :partying_face:",
 	}
-	// change help command category and alias
-	router.GetCommand("help").(*gommand.Command).Category = coreCategory
-	router.GetCommand("help").(*gommand.Command).Aliases = []string{"h"}
 
 	commands = append(commands,
 		&gommand.Command{
-			Name:        "ping",
-			Description: "Responds with pong.",
+			Name:        "gay",
+			Description: "How gay are you?",
 			Category:    coreCategory,
 			Function: func(ctx *gommand.Context) error {
-				ping, err := ctx.Session.AvgHeartbeatLatency()
-				if err != nil {
-					return err
+				gay := fmt.Sprint(rand.Intn(100))
+				if ctx.Message.Author.ID == 251411894894592003 {
+					gay = "999"
 				}
 
 				_, _ = ctx.Reply(disgord.Embed{
-					Title:       "Ping",
-					Description: fmt.Sprintf("Pong! %s", ping.String()),
+					Title:       ":rainbow_flag: Gay",
+					Description: "You are " + gay + "% gay",
 					Color:       viper.GetInt("bot.color"),
 				})
 				return nil
 			},
-			Aliases: []string{"p"},
+			Aliases: []string{"homo", "homosexual"},
 		},
 		&gommand.Command{
-			Name:        "invite",
-			Description: "Invite Iris to a server.",
+			Name:        "furry",
+			Description: "How furry are you?",
 			Category:    coreCategory,
 			Function: func(ctx *gommand.Context) error {
 				_, _ = ctx.Reply(disgord.Embed{
-					Title: ":link: Click here to invite me!",
-					URL:   viper.GetString("bot.invite"),
-					Color: viper.GetInt("bot.color"),
+					Title:       ":lion_face: Furry",
+					Description: "You are " + fmt.Sprint(rand.Intn(100)) + "% furry",
+					Color:       viper.GetInt("bot.color"),
 				})
 				return nil
 			},
-			Aliases: []string{"inv"},
 		},
 		&gommand.Command{
 			Name:        "about",
