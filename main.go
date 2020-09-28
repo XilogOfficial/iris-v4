@@ -15,35 +15,7 @@ var router = gommand.NewRouter(&gommand.RouterConfig{
 	PrefixCheck: gommand.MultiplePrefixCheckers(gommand.StaticPrefix("="), gommand.MentionPrefix),
 })
 
-func init() {
-	var coreCategory = &gommand.Category{
-		Name:        "Core",
-		Description: "Base Iris commands",
-	}
-
-	router.GetCommand("help").(*gommand.Command).Category = coreCategory
-	router.GetCommand("help").(*gommand.Command).Aliases = []string{"h"}
-
-	router.SetCommand(&gommand.Command{
-		Name:        "ping",
-		Description: "Responds with pong.",
-		Category:    coreCategory,
-		Function: func(ctx *gommand.Context) error {
-			ping, err := ctx.Session.AvgHeartbeatLatency()
-			if err != nil {
-				return err
-			}
-
-			_, _ = ctx.Reply(disgord.Embed{
-				Title:       "Ping",
-				Description: fmt.Sprintf("Pong! %s", ping.String()),
-				Color:       viper.GetInt("color"),
-			})
-			return nil
-		},
-		Aliases: []string{"p"},
-	})
-}
+var commands []gommand.CommandInterface // commands slice for other files to append commands to
 
 func main() {
 	// viper config
@@ -54,18 +26,9 @@ func main() {
 		panic(fmt.Errorf("Fatal error config file: %s \n", e))
 	}
 
-	logrus.SetLevel(logrus.DebugLevel)
-
-	s := disgord.New(disgord.Config{
-		BotToken: viper.GetString("token"),
-		Logger:   logrus.New(),
-	})
-
-	router.Hook(s)
-
-	err := s.StayConnectedUntilInterrupted(context.Background())
-	if err != nil {
-		panic(err)
+	// set all the commands in the slice
+	for _, v := range commands {
+		router.SetCommand(v)
 	}
 
 	// error handler
@@ -75,17 +38,43 @@ func main() {
 			// command no exist
 			return true
 		case *gommand.InvalidTransformation:
-			_, _ = ctx.Reply("Invalid argument:", err.Error())
+			_, _ = ctx.Reply(disgord.Embed{
+				Title:       "Whoops!",
+				Description: fmt.Sprintf("Invalid argument: %s", err.Error()),
+				Color:       16711680,
+			})
 			return true
 		case *gommand.IncorrectPermissions:
-			_, _ = ctx.Reply("You don't have permission to do that.", err.Error())
+			_, _ = ctx.Reply(disgord.Embed{
+				Title:       "Whoops!",
+				Description: fmt.Sprintf("You don't have permission to do this! %s", err.Error()),
+				Color:       16711680,
+			})
 			return true
 		case *gommand.InvalidArgCount:
-			_, _ = ctx.Reply("Invalid argument count.")
+			_, _ = ctx.Reply(disgord.Embed{
+				Title:       "Whoops!",
+				Description: "Invalid amount of arguments.",
+				Color:       16711680,
+			})
 			return true
 		}
 
 		// This was not handled here.
 		return false
 	})
+
+	logrus.SetLevel(logrus.DebugLevel)
+
+	s := disgord.New(disgord.Config{
+		BotToken: viper.GetString("bot.token"),
+		Logger:   logrus.New(),
+	})
+
+	router.Hook(s)
+
+	err := s.StayConnectedUntilInterrupted(context.Background())
+	if err != nil {
+		panic(err)
+	}
 }
