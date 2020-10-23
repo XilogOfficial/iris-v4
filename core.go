@@ -21,7 +21,7 @@ func init() {
 	commands = append(commands,
 		&gommand.Command{
 			Name:        "ping",
-			Description: "Responds with pong.",
+			Description: "🏓 Responds with pong",
 			Category:    coreCategory,
 			Function: func(ctx *gommand.Context) error {
 				ping, err := ctx.Session.AvgHeartbeatLatency()
@@ -31,7 +31,7 @@ func init() {
 
 				_, _ = ctx.Reply(disgord.Embed{
 					Title:       "Ping",
-					Description: fmt.Sprintf("Pong! %s", ping.String()),
+					Description: fmt.Sprintf("🏓 Pong! %s", ping.String()),
 					Color:       viper.GetInt("bot.color"),
 				})
 				return nil
@@ -40,11 +40,11 @@ func init() {
 		},
 		&gommand.Command{
 			Name:        "invite",
-			Description: "Invite Iris to a server.",
+			Description: "Invite Iris to a server",
 			Category:    coreCategory,
 			Function: func(ctx *gommand.Context) error {
 				_, _ = ctx.Reply(disgord.Embed{
-					Title: ":link: Click here to invite me!",
+					Title: "🔗 Click here to invite me!",
 					URL:   viper.GetString("bot.invite"),
 					Color: viper.GetInt("bot.color"),
 				})
@@ -54,7 +54,7 @@ func init() {
 		},
 		&gommand.Command{
 			Name:        "about",
-			Description: "About Iris.",
+			Description: "About Iris",
 			Category:    coreCategory,
 			Function: func(ctx *gommand.Context) error {
 				var m runtime.MemStats
@@ -62,7 +62,7 @@ func init() {
 
 				_, _ = ctx.Reply(disgord.Embed{
 					Title:       "About Iris",
-					Description: "Bot by [Xilog.](https://xilog.xyz) Thanks to [Alex](https://alex.lgbt/) and [Gommand](https://github.com/auttaja/gommand).",
+					Description: "Bot by [Xilog](https://xilog.xyz), [Alex](https://alex.lgbt/) and [contributors](https://github.com/XilogOfficial/iris-v4/graphs/contributors). Powered by [Gommand](https://github.com/auttaja/gommand).",
 					Fields: []*disgord.EmbedField{
 						{
 							Name:   "Go version",
