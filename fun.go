@@ -67,7 +67,7 @@ func init() {
 							Inline: true,
 						},
 						{
-							Name:   "Allocated mem",
+							Name:   "Allocated meory",
 							Value:  fmt.Sprintf("%v MiB", m.Alloc/1024/1024),
 							Inline: true,
 						},
