@@ -11,13 +11,13 @@ import (
 func init() {
 	var modCategory = &gommand.Category{
 		Name:        "Moderation",
-		Description: "Moderation commands",
+		Description: "Moderation commands ⚒️",
 	}
 
 	commands = append(commands,
 		&gommand.Command{
 			Name:        "kick",
-			Description: "Kicks a user",
+			Description: "Kicks a user 👢",
 			Usage:       "<member> [reason]",
 			Category:    modCategory,
 			ArgTransformers: []gommand.ArgTransformer{
@@ -41,7 +41,7 @@ func init() {
 
 				_ = menu.NewChildMenu(&gommand.ChildMenuOptions{
 					Embed: &disgord.Embed{
-						Title: "Kicked.",
+						Title: "👢 Kicked!",
 						Color: viper.GetInt("bot.color"),
 					},
 					Button: &gommand.MenuButton{
@@ -57,7 +57,7 @@ func init() {
 				})
 				_ = menu.NewChildMenu(&gommand.ChildMenuOptions{
 					Embed: &disgord.Embed{
-						Title: "Cancelled.",
+						Title: "Cancelled!",
 						Color: viper.GetInt("bot.color"),
 					},
 					Button: &gommand.MenuButton{
@@ -75,7 +75,7 @@ func init() {
 		},
 		&gommand.Command{
 			Name:        "ban",
-			Description: "Bans a user",
+			Description: "🔨 Bans a user",
 			Usage:       "<member> [reason]",
 			Category:    modCategory,
 			ArgTransformers: []gommand.ArgTransformer{
@@ -99,7 +99,7 @@ func init() {
 
 				_ = menu.NewChildMenu(&gommand.ChildMenuOptions{
 					Embed: &disgord.Embed{
-						Title: "Banned.",
+						Title: "🔨 Banned!",
 						Color: viper.GetInt("bot.color"),
 					},
 					Button: &gommand.MenuButton{
@@ -115,7 +115,7 @@ func init() {
 				})
 				_ = menu.NewChildMenu(&gommand.ChildMenuOptions{
 					Embed: &disgord.Embed{
-						Title: "Cancelled.",
+						Title: "Cancelled!",
 						Color: viper.GetInt("bot.color"),
 					},
 					Button: &gommand.MenuButton{
