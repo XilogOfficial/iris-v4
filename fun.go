@@ -13,7 +13,7 @@ import (
 func init() {
 	var coreCategory = &gommand.Category{
 		Name:        "Fun",
-		Description: "Fun commands! :partying_face:",
+		Description: "Fun commands! 🥳",
 	}
 
 	commands = append(commands,
@@ -28,7 +28,7 @@ func init() {
 				}
 
 				_, _ = ctx.Reply(disgord.Embed{
-					Title:       ":rainbow_flag: Gay",
+					Title:       "🏳️‍🌈 Gay",
 					Description: "You are " + gay + "% gay",
 					Color:       viper.GetInt("bot.color"),
 				})
@@ -42,7 +42,7 @@ func init() {
 			Category:    coreCategory,
 			Function: func(ctx *gommand.Context) error {
 				_, _ = ctx.Reply(disgord.Embed{
-					Title:       ":lion_face: Furry",
+					Title:       "🦁 Furry",
 					Description: "You are " + fmt.Sprint(rand.Intn(100)) + "% furry",
 					Color:       viper.GetInt("bot.color"),
 				})
